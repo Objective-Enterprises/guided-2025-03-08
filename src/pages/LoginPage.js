@@ -10,9 +10,11 @@ export default function LoginPage () {
   const [error, setError] = useState()
   function handleUsernameChange (event) {
     setUsername(event.target.value)
+    setError(undefined)
   }
   function handlePasswordChange (event) {
     setPassword(event.target.value)
+    setError(undefined)
   }
   function handleSubmit (event) {
     event.preventDefault()
