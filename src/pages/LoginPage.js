@@ -1,6 +1,8 @@
 import { Button, Container, Form } from 'react-bootstrap'
 import { useState } from 'react'
 import AlertMessage from '../components/AlertMessage'
+import { credentials } from '../credentials'
+import { users } from '../users'
 
 export default function LoginPage () {
   const [username, setUsername] = useState('')
@@ -18,6 +20,24 @@ export default function LoginPage () {
       setError('Username is required')
       return
     }
+    if (password === '') {
+      setError('Password is required')
+      return
+    }
+    const usernameRegistered = username in credentials
+    if (!usernameRegistered) {
+      setError('Invalid username')
+      return
+    }
+    const correctPassword = password === credentials[username]
+    if (!correctPassword) {
+      setError('Invalid password')
+      return
+    }
+    const user = users.find(user => user.username === username)
+    const userString = JSON.stringify(user)
+    localStorage.setItem('user', userString)
+    window.location.reload()
   }
   const alert = error && <AlertMessage>{error}</AlertMessage>
   return (
